@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+
+menuitem {
+  margin-left: 20px;
+}
+#session {
+  margin: auto;
+  width: 300px;
+  text-align: center;
+}

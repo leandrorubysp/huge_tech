@@ -1,8 +1,15 @@
+<h1>Hello DigitalOcean!</h1>
+
 <% if user_signed_in? %> 
- <div> Welcome <%= current_user.email %> </div> 
-  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 
+ <div id="session"> Welcome <%= current_user.email %> <%= button_to "Sign out", destroy_user_session_path, method: :delete %> </div>
 <% else %>
   <%= button_to "Sign in", new_user_session_path %> 
 <% end %>
 
-<h1>Hello DigitalOcean!</h1>
+<hr>
+
+<menu>
+  <menuitem><%= link_to "News", news_index_path %></span></menuitem>
+  <menuitem><%= link_to "Users", news_index_path %></menuitem>
+  <menuitem><%= link_to "Send Email", news_index_path %></menuitem>
+</menu>
