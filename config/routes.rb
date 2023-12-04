@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 
   resources :news
 
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   # Defines the root path route ("/")
   # root "posts#index"
 end

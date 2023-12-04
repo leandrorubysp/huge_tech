@@ -24,6 +24,9 @@ module HugeTech
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.active_job.queue_adapter = :sidekiq
+    config.action_mailer.deliver_later_queue_name = "mailers"
+
     config.action_mailer.preview_paths << "#{Rails.root}/lib/mailer_previews"
   end
 end
