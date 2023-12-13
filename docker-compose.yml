@@ -1,0 +1,72 @@
+version: '3.3'
+
+services:
+  ruby:
+    build: .
+    environment:
+      RAILS_ENV: development
+    command: bundle exec rails s -b 0.0.0.0
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      redis: {"condition":"service_healthy"}
+      mysql: {"condition":"service_healthy"}
+#      healthcheck:
+#        test: ["CMD", "curl", "-SsfL", "127.0.0.1:3000"]
+#        interval: 1s
+#        timeout: 1s
+#        retries: 300
+  redis:
+    image: "redis:alpine"
+  redis:
+    image: redis:4.0-alpine
+    restart: always
+    command: redis-server
+    volumes:
+      - redis:/data
+    ports:
+      - 6379
+    logging:
+            driver: none
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 1s
+      retries: 300
+  mysql:
+    image: "mysql:8.0"
+    restart: always
+    environment:
+     MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+     MYSQL_USERNAME: root
+    expose:
+      - '3306'
+    volumes:
+      - mysql:/var/run/mysqld
+    logging:
+            driver: none
+    ports:
+      - "33061:3306"
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "root", "-e", "select 1"]
+      interval: 1s
+      timeout: 1s
+      retries: 300
+  postgres:
+    image: postgres:14.2-alpine
+    container_name: myapp-postgres-14.2
+    command: "postgres -c 'max_connections=500'"
+    environment:
+      POSTGRES_DB: myappdb
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: ILoveDoingKnowBe4Training!
+    ports:
+      - "5432:5432"
+volumes:
+  ruby:
+  redis:
+  mysql:
+  postgres:
