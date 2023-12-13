@@ -27,13 +27,11 @@
 default: &default
   adapter: trilogy
   encoding: utf8
-  database: huge_tech
   pool: 5
-  host: 127.0.0.1
-  socket: /var/run/mysqld/mysqld.sock
-  # socket: /tmp/mysql.sock
-  variables:
-    sql_mode: TRADITIONAL
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
 
 development:
   <<: *default
