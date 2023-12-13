@@ -1,9 +1,10 @@
 version: '3.3'
 
 services:
+  # Development - Dev
   web_dev:
     build: 
-      context: ./
+      context: .
       dockerfile: Dockerfile
     environment:
       RAILS_ENV: development
@@ -16,7 +17,7 @@ services:
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       DB_USER: root
-      DB_NAME: huge_tech
+      DB_NAME: huge_tech_dev
       DB_PASSWORD: 
       DB_HOST: mysql_dev
       RAILS_MASTER_KEY: "OJc1SjyvpCD9alCF11OZyAUEaygWFkUJIaQs9HPklVfUWng96unk+4n5q9herBDXM4QnFvaRC+aebKYwyaxf0MNTAjrBi3FfURf5lfDNxHIAuSvOvumHmUXebeZXhAJDfAPe0mwXvow90uVUZcU9wAmbje19+jNMu6/rXNm/o6L5CBlYL2XpTpKiIPiH2gY9n6TwxijcMU42CA6w+56rjurCSD1mK7bJHb3OhKyBZsV7fsMQ+LabqZhNim4KrIUE7jjF+GAMYp0B28IiSXstJx99m+/7HCG2we0huI8tYgQrR0KPIZ0sgZqN3OCSSf0lL2LccNfxroydbRgD1WSAAjssDEftPpF2Uzfk8esqHQ4PpfX1Jv+X/Y2ZPZ+ls3NXg9Y0HhWnSKwWuAvY4NE2tpztnM/y--1rzc3wSd5qPPYQhL--x/7vvLnJ2PpC+NhlfQQbug=="
@@ -28,50 +29,6 @@ services:
 #        interval: 1s
 #        timeout: 1s
 #        retries: 300
-  web_hom:
-    build: 
-      context: ./
-      dockerfile: Dockerfile
-    environment:
-      RAILS_ENV: development
-    command: bundle exec rails s -b 0.0.0.0
-    restart: always
-    volumes:
-      - .:/app
-    ports:
-      - "3001:3000"
-    environment:
-      RAILS_ENV: ${RAILS_ENV:-development}
-      DB_USER: root
-      DB_NAME: huge_tech
-      DB_PASSWORD: 
-      DB_HOST: mysql_hom
-      RAILS_MASTER_KEY: "OJc1SjyvpCD9alCF11OZyAUEaygWFkUJIaQs9HPklVfUWng96unk+4n5q9herBDXM4QnFvaRC+aebKYwyaxf0MNTAjrBi3FfURf5lfDNxHIAuSvOvumHmUXebeZXhAJDfAPe0mwXvow90uVUZcU9wAmbje19+jNMu6/rXNm/o6L5CBlYL2XpTpKiIPiH2gY9n6TwxijcMU42CA6w+56rjurCSD1mK7bJHb3OhKyBZsV7fsMQ+LabqZhNim4KrIUE7jjF+GAMYp0B28IiSXstJx99m+/7HCG2we0huI8tYgQrR0KPIZ0sgZqN3OCSSf0lL2LccNfxroydbRgD1WSAAjssDEftPpF2Uzfk8esqHQ4PpfX1Jv+X/Y2ZPZ+ls3NXg9Y0HhWnSKwWuAvY4NE2tpztnM/y--1rzc3wSd5qPPYQhL--x/7vvLnJ2PpC+NhlfQQbug=="
-    depends_on:
-      redis: {"condition":"service_healthy"}
-      mysql_hom: {"condition":"service_healthy"}
-#      healthcheck:
-#        test: ["CMD", "curl", "-SsfL", "127.0.0.1:3000"]
-#        interval: 1s
-#        timeout: 1s
-#        retries: 300
-  redis:
-    image: redis:4.0-alpine
-    restart: always
-    command: redis-server
-    volumes:
-      - redis:/data
-    ports:
-      - 6379
-    logging:
-            driver: none
-    depends_on:
-      mysql_dev: {"condition":"service_healthy"}
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 1s
-      timeout: 1s
-      retries: 300
   mysql_dev:
     image: "mysql:8.0"
     restart: always
@@ -91,6 +48,52 @@ services:
       interval: 1s
       timeout: 1s
       retries: 300
+  redis:
+    image: redis:4.0-alpine
+    restart: always
+    command: redis-server
+    volumes:
+      - redis:/data
+    ports:
+      - 6379
+    logging:
+            driver: none
+    depends_on:
+      mysql_dev: {"condition":"service_healthy"}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 1s
+      retries: 300
+  web_hom:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      RAILS_ENV: development
+    command: bundle exec rails s -b 0.0.0.0
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3000"
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+      DB_USER: root
+      DB_NAME: huge_tech_hom
+      DB_PASSWORD: 
+      DB_HOST: mysql_hom
+      RAILS_MASTER_KEY: "OJc1SjyvpCD9alCF11OZyAUEaygWFkUJIaQs9HPklVfUWng96unk+4n5q9herBDXM4QnFvaRC+aebKYwyaxf0MNTAjrBi3FfURf5lfDNxHIAuSvOvumHmUXebeZXhAJDfAPe0mwXvow90uVUZcU9wAmbje19+jNMu6/rXNm/o6L5CBlYL2XpTpKiIPiH2gY9n6TwxijcMU42CA6w+56rjurCSD1mK7bJHb3OhKyBZsV7fsMQ+LabqZhNim4KrIUE7jjF+GAMYp0B28IiSXstJx99m+/7HCG2we0huI8tYgQrR0KPIZ0sgZqN3OCSSf0lL2LccNfxroydbRgD1WSAAjssDEftPpF2Uzfk8esqHQ4PpfX1Jv+X/Y2ZPZ+ls3NXg9Y0HhWnSKwWuAvY4NE2tpztnM/y--1rzc3wSd5qPPYQhL--x/7vvLnJ2PpC+NhlfQQbug=="
+    depends_on:
+      redis: {"condition":"service_healthy"}
+      mysql_hom: {"condition":"service_healthy"}
+#      healthcheck:
+#        test: ["CMD", "curl", "-SsfL", "127.0.0.1:3000"]
+#        interval: 1s
+#        timeout: 1s
+#        retries: 300
+
+  # Development - Hom
   mysql_hom:
     image: "mysql:8.0"
     restart: always
@@ -110,34 +113,27 @@ services:
       interval: 1s
       timeout: 1s
       retries: 300
-  postgres:
-    image: postgres:14.2-alpine
-    container_name: myapp-postgres-14.2
-    command: "postgres -c 'max_connections=500'"
-    environment:
-      POSTGRES_DB: myappdb
-      POSTGRES_USER: my_user
-      POSTGRES_PASSWORD: ILoveDoingKnowBe4Training!
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: pg_isready -U postgres -h 127.0.0.1
-      interval: 5s
   sidekiq:
     depends_on:
       - 'mysql_dev'
       - 'redis'
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     command: bundle exec sidekiq
     volumes:
       - '.:/project'
     environment:
       - REDIS_URL_SIDEKIQ=redis://redis:6379/1
+
 volumes:
+  # Development - Dev
   web_dev:
-  web_hom:
+  mysql_dev:
   redis:
   sidekiq:
-  mysql_dev:
+  # Development - Hom
+  web_hom:
   mysql_hom:
-  postgres:
+  redis:
+  sidekiq:
