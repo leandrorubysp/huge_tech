@@ -7,13 +7,14 @@ services:
       dockerfile: Dockerfile
     environment:
       RAILS_ENV: development
-    command: bundle exec rails s -b 0.0.0.0 -e development
+    command: bundle exec rails s -b 0.0.0.0
     restart: always
     volumes:
       - .:/app
     ports:
       - "3000:3000"
     environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
       DB_USER: root
       DB_NAME: huge_tech
       DB_PASSWORD: 
@@ -73,6 +74,9 @@ services:
       POSTGRES_PASSWORD: ILoveDoingKnowBe4Training!
     ports:
       - "5432:5432"
+    healthcheck:
+      test: pg_isready -U postgres -h 127.0.0.1
+      interval: 5s
 volumes:
   ruby:
   redis:
