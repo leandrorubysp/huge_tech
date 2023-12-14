@@ -6,3 +6,11 @@ services:
     volumes:
         - ~/.docker-conf/development_secondary_rabbitmq/data/:/var/lib/rabbitmq/
         - ~/.docker-conf/development_secondary_rabbitmq/log/:/var/log/rabbitmq
+    healthcheck:
+      test:
+        - "CMD"
+        - "rabbitmqctl"
+        - "status"
+      interval: 1s
+      timeout: 1s
+      retries: 20

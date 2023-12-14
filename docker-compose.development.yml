@@ -45,6 +45,7 @@ services:
       development_principal_redis: {"condition":"service_healthy"}
       development_principal_sidekiq: {"condition":"service_healthy"}
       development_principal_mysql: {"condition":"service_healthy"}
+      development_principal_rabbitmq: {"condition":"service_healthy"}
   # --------------- --------------------- ---------------
 
   # --------------- Development Secondary ---------------
@@ -86,6 +87,7 @@ services:
       development_secondary_redis: {"condition":"service_healthy"}
       development_secondary_sidekiq: {"condition":"service_healthy"}
       development_secondary_mysql: {"condition":"service_healthy"}
+      development_secondary_rabbitmq: {"condition":"service_healthy"}
   # --------------- --------------------- ---------------
 
 volumes:
