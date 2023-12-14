@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: "mysql:8.0"
+    restart: always
+    expose:
+      - '3306'
+    volumes:
+      - development_secondary_mysql:/var/run/mysqld
+    logging:
+            driver: none
+    ports:
+      - "3308:3306"
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "root", "-e", "select 1"]
+      interval: 1s
+      timeout: 1s
+      retries: 20

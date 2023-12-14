@@ -1,0 +1,16 @@
+services:
+  redis:
+    image: redis:4.0-alpine
+    restart: always
+    command: redis-server
+    volumes:
+      - development_secondary_redis:/data
+    ports:
+      - 6379
+    logging:
+      driver: none
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 1s
+      retries: 20
