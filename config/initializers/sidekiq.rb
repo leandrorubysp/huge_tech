@@ -2,9 +2,11 @@ require 'sidekiq'
 require 'sidekiq-scheduler'
 require 'sidekiq/web'
 
+ENV['REDIS_URL'].present? ? URL = ENV['REDIS_URL'] : URL = 'redis://localhost:6379/1'
+
 Sidekiq.configure_server do |config|
   config.redis = {
-    url: 'redis://localhost:6379/1'
+    url: URL
   }
 
   # config.on(:startup) do
@@ -17,7 +19,7 @@ end
 
 Sidekiq.configure_client do |config|
   config.redis = {
-    url: 'redis://localhost:6379/1'
+    url: URL
   }
 
   Rails.logger = ActiveSupport::BroadcastLogger.new(Rails.logger, config.logger)

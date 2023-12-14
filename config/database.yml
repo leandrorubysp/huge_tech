@@ -35,3 +35,9 @@ default: &default
 
 development:
   <<: *default
+
+homolog:
+  <<: *default
+
+production:
+  <<: *default

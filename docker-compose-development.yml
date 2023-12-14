@@ -6,8 +6,6 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    environment:
-      RAILS_ENV: development
     command: bundle exec rails s -b 0.0.0.0
     restart: always
     volumes:
@@ -20,7 +18,8 @@ services:
       DB_NAME: huge_tech_dev
       DB_PASSWORD: 
       DB_HOST: mysql_dev
-      RAILS_MASTER_KEY: "OJc1SjyvpCD9alCF11OZyAUEaygWFkUJIaQs9HPklVfUWng96unk+4n5q9herBDXM4QnFvaRC+aebKYwyaxf0MNTAjrBi3FfURf5lfDNxHIAuSvOvumHmUXebeZXhAJDfAPe0mwXvow90uVUZcU9wAmbje19+jNMu6/rXNm/o6L5CBlYL2XpTpKiIPiH2gY9n6TwxijcMU42CA6w+56rjurCSD1mK7bJHb3OhKyBZsV7fsMQ+LabqZhNim4KrIUE7jjF+GAMYp0B28IiSXstJx99m+/7HCG2we0huI8tYgQrR0KPIZ0sgZqN3OCSSf0lL2LccNfxroydbRgD1WSAAjssDEftPpF2Uzfk8esqHQ4PpfX1Jv+X/Y2ZPZ+ls3NXg9Y0HhWnSKwWuAvY4NE2tpztnM/y--1rzc3wSd5qPPYQhL--x/7vvLnJ2PpC+NhlfQQbug=="
+      RAILS_MASTER_KEY: "0493247110c49c4b3da312ecc4caa044"
+      REDIS_URL: 'redis://redis:6379/1'
     depends_on:
       redis: {"condition":"service_healthy"}
       mysql_dev: {"condition":"service_healthy"}
@@ -69,8 +68,6 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    environment:
-      RAILS_ENV: development
     command: bundle exec rails s -b 0.0.0.0
     restart: always
     volumes:
@@ -78,12 +75,13 @@ services:
     ports:
       - "3001:3000"
     environment:
-      RAILS_ENV: ${RAILS_ENV:-development}
+      RAILS_ENV: ${RAILS_ENV:-homolog}
       DB_USER: root
       DB_NAME: huge_tech_hom
       DB_PASSWORD: 
       DB_HOST: mysql_hom
-      RAILS_MASTER_KEY: "OJc1SjyvpCD9alCF11OZyAUEaygWFkUJIaQs9HPklVfUWng96unk+4n5q9herBDXM4QnFvaRC+aebKYwyaxf0MNTAjrBi3FfURf5lfDNxHIAuSvOvumHmUXebeZXhAJDfAPe0mwXvow90uVUZcU9wAmbje19+jNMu6/rXNm/o6L5CBlYL2XpTpKiIPiH2gY9n6TwxijcMU42CA6w+56rjurCSD1mK7bJHb3OhKyBZsV7fsMQ+LabqZhNim4KrIUE7jjF+GAMYp0B28IiSXstJx99m+/7HCG2we0huI8tYgQrR0KPIZ0sgZqN3OCSSf0lL2LccNfxroydbRgD1WSAAjssDEftPpF2Uzfk8esqHQ4PpfX1Jv+X/Y2ZPZ+ls3NXg9Y0HhWnSKwWuAvY4NE2tpztnM/y--1rzc3wSd5qPPYQhL--x/7vvLnJ2PpC+NhlfQQbug=="
+      RAILS_MASTER_KEY: "0493247110c49c4b3da312ecc4caa044"
+      REDIS_URL: 'redis://redis:6379/1'
     depends_on:
       redis: {"condition":"service_healthy"}
       mysql_hom: {"condition":"service_healthy"}
@@ -122,10 +120,10 @@ services:
       dockerfile: Dockerfile
     command: bundle exec sidekiq
     volumes:
-      - '.:/project'
+      - .:/app
     environment:
-      - REDIS_URL_SIDEKIQ=redis://redis:6379/1
-
+      RAILS_MASTER_KEY: "0493247110c49c4b3da312ecc4caa044"
+      REDIS_URL: 'redis://redis:6379/1'
 volumes:
   # Development - Dev
   web_dev:
