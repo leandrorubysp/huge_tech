@@ -4,9 +4,6 @@ services:
     restart: always
     volumes:
       - .:/app
-    environment:
-      RAILS_MASTER_KEY: "0493247110c49c4b3da312ecc4caa044"
-      REDIS_URL: 'redis://development_principal_redis:6379/1'
     healthcheck:
       test: "ps aux | grep '[s]idekiq 6'"
       interval: 1s

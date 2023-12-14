@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 # Change for create new server:
 # Path: server/development/principal
@@ -24,6 +24,15 @@ services:
     extends:
       file: server/development/principal/sidekiq.yml
       service: sidekiq
+    env_file:
+      - server/development/principal/sidekiq.env
+
+  development_principal_rabbitmq:
+    extends:
+      file: server/development/principal/rabbitmq.yml
+      service: rabbitmq
+    env_file:
+      - server/development/principal/rabbitmq.env
 
   development_principal_web:
     build: .
@@ -56,6 +65,15 @@ services:
     extends:
       file: server/development/secondary/sidekiq.yml
       service: sidekiq
+    env_file:
+      - server/development/secondary/sidekiq.env
+
+  development_secondary_rabbitmq:
+    extends:
+      file: server/development/secondary/rabbitmq.yml
+      service: rabbitmq
+    env_file:
+      - server/development/secondary/rabbitmq.env
 
   development_secondary_web:
     build: .
@@ -76,6 +94,7 @@ volumes:
   development_principal_mysql:
   development_principal_redis:
   development_principal_sidekiq:
+  development_principal_rabbitmq:
   # --------------- --------------------- ---------------
 
   # --------------- Development Secondary ---------------
@@ -83,4 +102,5 @@ volumes:
   development_secondary_mysql:
   development_secondary_redis:
   development_secondary_sidekiq:
+  development_secondary_rabbitmq:
   # --------------- --------------------- ---------------
