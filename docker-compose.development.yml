@@ -90,17 +90,13 @@ services:
 
 volumes:
   # --------------- Development Secondary ---------------
-  development_principal_web:
   development_principal_mysql:
   development_principal_redis:
-  development_principal_sidekiq:
   development_principal_rabbitmq:
   # --------------- --------------------- ---------------
 
   # --------------- Development Secondary ---------------
-  development_secondary_web:
   development_secondary_mysql:
   development_secondary_redis:
-  development_secondary_sidekiq:
   development_secondary_rabbitmq:
   # --------------- --------------------- ---------------
