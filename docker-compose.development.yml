@@ -46,6 +46,15 @@ services:
       development_principal_sidekiq: {"condition":"service_healthy"}
       development_principal_mysql: {"condition":"service_healthy"}
       development_principal_rabbitmq: {"condition":"service_healthy"}
+
+  development_principal_ngnix:
+    build:
+      context: .
+      dockerfile: DockerFileNginx
+    depends_on:
+      - development_principal_web
+    ports:
+      - 80:80
   # --------------- --------------------- ---------------
 
   # --------------- Development Secondary ---------------
