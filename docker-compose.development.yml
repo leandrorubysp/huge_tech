@@ -109,7 +109,7 @@ services:
   # --------------- --------------------- ---------------
 
 volumes:
-  # --------------- Development Secondary ---------------
+  # --------------- Development Principal ---------------
   development_principal_mysql:
   development_principal_redis:
   development_principal_rabbitmq:
