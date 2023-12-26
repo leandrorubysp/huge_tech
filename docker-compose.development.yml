@@ -97,6 +97,15 @@ services:
       development_secondary_sidekiq: {"condition":"service_healthy"}
       development_secondary_mysql: {"condition":"service_healthy"}
       development_secondary_rabbitmq: {"condition":"service_healthy"}
+
+  development_secondary_ngnix:
+    build:
+      context: .
+      dockerfile: DockerFileNginx
+    depends_on:
+      - development_secondary_web
+    ports:
+      - 81:81
   # --------------- --------------------- ---------------
 
 volumes:
