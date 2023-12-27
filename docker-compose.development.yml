@@ -43,19 +43,11 @@ services:
     env_file:
       - server/development/principal/web.env
     depends_on:
-      development_principal_redis: {"condition":"service_healthy"}
-      development_principal_sidekiq: {"condition":"service_healthy"}
+      #development_principal_redis: {"condition":"service_healthy"}
+      #development_principal_sidekiq: {"condition":"service_healthy"}
       development_principal_mysql: {"condition":"service_healthy"}
       development_principal_rabbitmq: {"condition":"service_healthy"}
 
-  development_principal_nginx:
-    build:
-      context: .
-      dockerfile: DockerFile.nginx
-    depends_on:
-      - development_principal_web
-    ports:
-      - 80:80
   # --------------- --------------------- ---------------
 
   # --------------- Development Secondary ---------------
@@ -94,19 +86,25 @@ services:
     env_file:
       - server/development/secondary/web.env
     depends_on:
-      development_secondary_redis: {"condition":"service_healthy"}
-      development_secondary_sidekiq: {"condition":"service_healthy"}
+      #development_secondary_redis: {"condition":"service_healthy"}
+      #development_secondary_sidekiq: {"condition":"service_healthy"}
       development_secondary_mysql: {"condition":"service_healthy"}
       development_secondary_rabbitmq: {"condition":"service_healthy"}
 
-  development_secondary_nginx:
+  # --------------- --------------------- ---------------
+
+  # --------------- ------ Shared ------- ---------------
+  development_principal_nginx:
     build:
       context: .
       dockerfile: DockerFile.nginx
     depends_on:
+      - development_principal_web
       - development_secondary_web
     ports:
-      - 81:81
+      - 80:80 # HTTP
+      - 443:443 # HTTPs
+
   # --------------- --------------------- ---------------
 
 volumes:
