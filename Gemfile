@@ -36,7 +36,7 @@ gem "jbuilder"
 gem "redis", ">= 5.0.8"
 
 # Sidekiq
-gem 'sidekiq', '~> 6.4.0'
+gem 'sidekiq', '~> 6.5.5'
 gem 'sidekiq-scheduler'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
