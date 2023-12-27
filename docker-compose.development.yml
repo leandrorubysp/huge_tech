@@ -4,6 +4,7 @@ version: '3.8'
 # Path: server/development/principal
 # Name: development_principal
 # Create new folder, copy files, change names and ports
+# Run on terminal with the new serve: cat server/development/principal/nginx.conf server/development/secondary/nginx.conf > nginx.conf
 
 services:
   # --------------- Development Principal ---------------
@@ -47,10 +48,10 @@ services:
       development_principal_mysql: {"condition":"service_healthy"}
       development_principal_rabbitmq: {"condition":"service_healthy"}
 
-  development_principal_ngnix:
+  development_principal_nginx:
     build:
       context: .
-      dockerfile: DockerFileNginx
+      dockerfile: DockerFile.nginx
     depends_on:
       - development_principal_web
     ports:
@@ -98,10 +99,10 @@ services:
       development_secondary_mysql: {"condition":"service_healthy"}
       development_secondary_rabbitmq: {"condition":"service_healthy"}
 
-  development_secondary_ngnix:
+  development_secondary_nginx:
     build:
       context: .
-      dockerfile: DockerFileNginx
+      dockerfile: DockerFile.nginx
     depends_on:
       - development_secondary_web
     ports:
