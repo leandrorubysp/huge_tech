@@ -19,8 +19,8 @@ COPY public public/
 COPY nginx.conf /tmp/docker.nginx
 
 # Copy SSL Key
-COPY server/development/principal/cert.pem /etc/nginx/certs/cert.pem
-COPY server/development/principal/key.pem /etc/nginx/certs/key.pem
+COPY server/cert.pem /etc/nginx/certs/cert.pem
+COPY server/key.pem /etc/nginx/certs/key.pem
 
 # substitute variable references in the Nginx config template for real values from the environment
 # put the final config in its place
