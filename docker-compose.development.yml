@@ -4,7 +4,7 @@ version: '3.8'
 # Path: server/development/principal
 # Name: development_principal
 # Create new folder, copy files, change names and ports
-# Run on terminal with the new serve: cat server/development/principal/nginx.conf server/development/secondary/nginx.conf > nginx.conf
+# Run on terminal with the new serve: cat server/development/principal/nginx.conf server/development/secondary/nginx.conf server/https_setup.conf > nginx.conf
 
 services:
   # --------------- Development Principal ---------------
@@ -104,7 +104,6 @@ services:
     ports:
       - 80:80 # HTTP
       - 443:443 # HTTPs
-
   # --------------- --------------------- ---------------
 
 volumes:
