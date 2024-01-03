@@ -109,7 +109,6 @@ services:
   # --------------- --------------------- ---------------
 
 volumes:
-  development_principal_nginx:
   # --------------- Development Principal ---------------
   development_principal_mysql:
   development_principal_redis:
