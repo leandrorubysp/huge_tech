@@ -2,7 +2,7 @@
 
 # If running the rails server then create or migrate existing database
 if [ "${3}" == "rails" ] && [ "${4}" == "s" ]; then
-  sleep 2 # waiting for start MySQL
+  sleep 1 # waiting for start MySQL
   ./bin/rails db:prepare
 fi
 
