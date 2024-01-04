@@ -4,3 +4,6 @@ services:
     restart: always
     volumes:
       - .:/app
+    deploy:
+      mode: replicated
+      replicas: 2
