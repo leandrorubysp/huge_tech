@@ -1,11 +1,11 @@
 services:
   mysql:
-    image: "mysql:8.0"
+    image: mysql:8.0.30
     restart: always
     expose:
       - '3306'
     volumes:
-      - development_principal_mysql:/var/run/mysqld
+      - development_principal:/var/lib/mysql
     logging:
             driver: none
     ports:

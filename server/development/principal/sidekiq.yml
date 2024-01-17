@@ -3,7 +3,7 @@ services:
     command: bundle exec sidekiq
     restart: always
     volumes:
-      - .:/app
+      - ./:/app
     healthcheck:
       test: "ps aux | grep '[s]idekiq 6'"
       interval: 1s

@@ -4,8 +4,8 @@ services:
     ports:
         - 15672:15672
     volumes:
-        - ~/.docker-conf/development_principal_rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/development_principal_rabbitmq/log/:/var/log/rabbitmq
+        - development_principal:/var/lib/rabbitmq/
+        #- development_principal:/var/log/rabbitmq
     healthcheck:
       test:
         - "CMD"

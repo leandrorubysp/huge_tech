@@ -4,7 +4,7 @@ services:
     restart: always
     command: redis-server
     volumes:
-      - development_secondary_redis:/data
+      - development_secondary:/data
     ports:
       - 6379
     logging:

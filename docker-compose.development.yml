@@ -28,12 +28,12 @@ services:
     env_file:
       - server/development/principal/sidekiq.env
 
-  development_principal_rabbitmq:
-    extends:
-      file: server/development/principal/rabbitmq.yml
-      service: rabbitmq
-    env_file:
-      - server/development/principal/rabbitmq.env
+  #development_principal_rabbitmq:
+  #  extends:
+  #    file: server/development/principal/rabbitmq.yml
+  #    service: rabbitmq
+  #  env_file:
+  #    - server/development/principal/rabbitmq.env
 
   development_principal_web:
     build: .
@@ -43,10 +43,10 @@ services:
     env_file:
       - server/development/principal/web.env
     depends_on:
-      #development_principal_redis: {"condition":"service_healthy"}
-      #development_principal_sidekiq: {"condition":"service_healthy"}
+      development_principal_redis: {"condition":"service_healthy"}
+      development_principal_sidekiq: {"condition":"service_healthy"}
       development_principal_mysql: {"condition":"service_healthy"}
-      development_principal_rabbitmq: {"condition":"service_healthy"}
+      #development_principal_rabbitmq: {"condition":"service_healthy"}
 
   # --------------- --------------------- ---------------
 
@@ -71,12 +71,12 @@ services:
     env_file:
       - server/development/secondary/sidekiq.env
 
-  development_secondary_rabbitmq:
-    extends:
-      file: server/development/secondary/rabbitmq.yml
-      service: rabbitmq
-    env_file:
-      - server/development/secondary/rabbitmq.env
+  #development_secondary_rabbitmq:
+  #  extends:
+  #    file: server/development/secondary/rabbitmq.yml
+  #    service: rabbitmq
+  #  env_file:
+  #    - server/development/secondary/rabbitmq.env
 
   development_secondary_web:
     build: .
@@ -86,10 +86,10 @@ services:
     env_file:
       - server/development/secondary/web.env
     depends_on:
-      #development_secondary_redis: {"condition":"service_healthy"}
-      #development_secondary_sidekiq: {"condition":"service_healthy"}
+      development_secondary_redis: {"condition":"service_healthy"}
+      development_secondary_sidekiq: {"condition":"service_healthy"}
       development_secondary_mysql: {"condition":"service_healthy"}
-      development_secondary_rabbitmq: {"condition":"service_healthy"}
+   #   development_secondary_rabbitmq: {"condition":"service_healthy"}
 
   # --------------- --------------------- ---------------
 
@@ -114,14 +114,5 @@ services:
   # --------------- --------------------- ---------------
 
 volumes:
-  # --------------- Development Principal ---------------
-  development_principal_mysql:
-  development_principal_redis:
-  development_principal_rabbitmq:
-  # --------------- --------------------- ---------------
-
-  # --------------- Development Secondary ---------------
-  development_secondary_mysql:
-  development_secondary_redis:
-  development_secondary_rabbitmq:
-  # --------------- --------------------- ---------------
+  development_principal:
+  development_secondary:
