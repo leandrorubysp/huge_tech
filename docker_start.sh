@@ -9,7 +9,7 @@ then
 else
   docker-volume-snapshot restore huge_tech_development_principal.tar.gz huge_tech_development_principal
 
-  sleep 5
+  sleep 20
 
   echo "Done restore snapshot!"
 fi
