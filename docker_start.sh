@@ -8,9 +8,13 @@ then
   echo "Database is ready!"
 else
   docker-volume-snapshot restore huge_tech_development_principal.tar.gz huge_tech_development_principal
+
+  sleep 5
+
   echo "Done restore snapshot!"
 fi
 
 cd ../../;
 
-docker-compose -f docker-compose.development.yml up --build
+docker-compose -f docker-compose.development.yml build
+docker-compose -f docker-compose.development.yml up
