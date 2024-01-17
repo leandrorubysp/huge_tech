@@ -94,7 +94,7 @@ services:
   # --------------- --------------------- ---------------
 
   # --------------- ------ Shared ------- ---------------
-  development_principal_nginx:
+  nginx:
     build:
       context: .
       dockerfile: DockerFile.nginx
