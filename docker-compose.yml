@@ -20,13 +20,13 @@ services:
       file: server/development/principal/redis.yml
       service: redis
 
-  development_principal_sidekiq:
-    build: .
-    extends:
-      file: server/development/principal/sidekiq.yml
-      service: sidekiq
-    env_file:
-      - server/development/principal/sidekiq.env
+  # development_principal_sidekiq:
+  #   build: .
+  #   extends:
+  #     file: server/development/principal/sidekiq.yml
+  #     service: sidekiq
+  #   env_file:
+  #     - server/development/principal/sidekiq.env
 
   #development_principal_rabbitmq:
   #  extends:
@@ -44,7 +44,7 @@ services:
       - server/development/principal/web.env
     depends_on:
       development_principal_redis: {"condition":"service_healthy"}
-      development_principal_sidekiq: {"condition":"service_healthy"}
+      # development_principal_sidekiq: {"condition":"service_healthy"}
       development_principal_mysql: {"condition":"service_healthy"}
       #development_principal_rabbitmq: {"condition":"service_healthy"}
 
@@ -62,11 +62,11 @@ services:
       - 443:443 
     volumes:
       - ./log/nginx:/var/log/nginx
-  mailcatcher:
-    image: yappabe/mailcatcher
-    ports:
-      - "1025:1025"
-      - "1080:1080"
+  # mailcatcher:
+  #   image: yappabe/mailcatcher
+  #   ports:
+  #     - "1025:1025"
+  #     - "1080:1080"
   # --------------- --------------------- ---------------
 
 volumes:
