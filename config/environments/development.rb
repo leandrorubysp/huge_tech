@@ -94,4 +94,5 @@ Rails.application.configure do
   # config.hosts.clear
 
   config.hosts << '.obras.com'
+  config.hosts << "obrashomolog-env.eba-cppvpwk3.sa-east-1.elasticbeanstalk.com"
 end
