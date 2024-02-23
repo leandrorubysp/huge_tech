@@ -1,46 +1,50 @@
 version: '3.8'
 
 # Change for create new server:
-# Path: server/development/principal
+# Path: nginx/server/development/principal
 # Name: development_principal
 # Create new folder, copy files, change names and ports
-# Run on terminal with the new serve: cat server/development/principal/nginx.conf server/development/secondary/nginx.conf > nginx.conf
+# Run on terminal with the new serve: cat nginx/server/development/principal/nginx.conf server/development/secondary/nginx.conf > nginx.conf
 
 services:
   # --------------- Development Principal ---------------
   development_principal_mysql:
     env_file:
-      - server/development/principal/mysql.env
+      - nginx/server/development/principal/mysql.env
     extends:
-      file: server/development/principal/mysql.yml
+      file: nginx/server/development/principal/mysql.yml
       service: mysql
     networks:
       - principal
 
   development_principal_redis:
     extends:
-      file: server/development/principal/redis.yml
+      file: nginx/server/development/principal/redis.yml
       service: redis
     networks:
       - principal
 
   development_principal_sidekiq:
-    build: .
+    build:
+      dockerfile: Dockerfile
+      context: ./app-one
     extends:
-      file: server/development/principal/sidekiq.yml
+      file: nginx/server/development/principal/sidekiq.yml
       service: sidekiq
     env_file:
-      - server/development/principal/sidekiq.env
+      - nginx/server/development/principal/sidekiq.env
     networks:
       - principal
 
   development_principal_web:
-    build: .
+    build:
+      dockerfile: Dockerfile
+      context: ./app-one
     extends:
-      file: server/development/principal/web.yml
+      file: nginx/server/development/principal/web.yml
       service: web
     env_file:
-      - server/development/principal/web.env
+      - nginx/server/development/principal/web.env
     depends_on:
       development_principal_redis: {"condition":"service_healthy"}
       development_principal_sidekiq: {"condition":"service_healthy"}
@@ -49,25 +53,74 @@ services:
       - principal
   # --------------- --------------------- ---------------
 
+  # Secondary
+
+  development_secondary_mysql:
+    env_file:
+      - nginx/server/development/secondary/mysql.env
+    extends:
+      file: nginx/server/development/secondary/mysql.yml
+      service: mysql
+    networks:
+      - secondary
+
+  development_secondary_redis:
+    extends:
+      file: nginx/server/development/secondary/redis.yml
+      service: redis
+    networks:
+      - secondary
+
+  development_secondary_sidekiq:
+    build:
+      dockerfile: Dockerfile
+      context: ./app-two
+    extends:
+      file: nginx/server/development/secondary/sidekiq.yml
+      service: sidekiq
+    env_file:
+      - nginx/server/development/secondary/sidekiq.env
+    networks:
+      - secondary
+
+  development_secondary_web:
+    build:
+      dockerfile: Dockerfile
+      context: ./app-two
+    extends:
+      file: nginx/server/development/secondary/web.yml
+      service: web
+    env_file:
+      - nginx/server/development/secondary/web.env
+    depends_on:
+      development_secondary_redis: {"condition":"service_healthy"}
+      development_secondary_sidekiq: {"condition":"service_healthy"}
+      development_secondary_mysql: {"condition":"service_healthy"}
+    networks:
+      - secondary
+
   # --------------- ------ Shared ------- ---------------
   nginx:
     build:
-      context: .
+      context: ./nginx
       dockerfile: DockerFile.nginx
     depends_on:
       - development_principal_web
-
+      - development_secondary_web
     ports:
       - 80:80
       - 443:443 
     volumes:
-      - ./log/nginx:/var/log/nginx
+      - ./nginx/log:/var/log/nginx
     networks:
       - principal
+      - secondary
   # --------------- --------------------- ---------------
 
 volumes:
   development_principal:
+  development_secondary:
 
 networks:
   principal:
+  secondary:
